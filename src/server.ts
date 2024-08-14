@@ -2,6 +2,8 @@ import { config } from 'dotenv';
 config();
 
 import cookieParser from 'cookie-parser';
+import compression from 'compression';
+import helmet from 'helmet';
 import cors from 'cors';
 import express, { Request, Response } from 'express';
 import actuator from 'express-actuator';
@@ -47,6 +49,8 @@ app.use(actuator({
         }
     },
 }));
+app.use(compression());
+app.use(helmet());
 app.disable('x-powered-by');
 app.use(rateLimit({
     windowMs: 15 * 60 * 1000,
@@ -58,7 +62,7 @@ app.use(rateLimit({
 app.use('/health', healthCheck());
 app.use(express.json({ limit: "50mb" }));
 app.use(parse());
-app.use(morgan("dev"));
+app.use(morgan("combined"));
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(methodOverride());
