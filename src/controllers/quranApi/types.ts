@@ -189,7 +189,7 @@ export interface IAyahRecitationSpecificAyah {
 
 export interface AudioApi {
   getChaptersAudioOfAReciter(id: number, chapter_number: number): Promise<IAudio | Error | AxiosError>;
-  getAllChaptersAudioOfAReciter(id: number, language: string): Promise<IListOfAllAudioOfAReciter | Error | AxiosError>;
+  getAllChaptersAudioOfAReciter(id: number, language?: string): Promise<IListOfAllAudioOfAReciter | Error | AxiosError>;
   getRecitations(language: string): Promise<IRecitation | Error | AxiosError>;
   getAllAudioFilesofARecitation(recitation_id: number, query?: AudioQueryParams): Promise<ISingleRecitation | Error | AxiosError>;
   getListOfChapterReciters(language: string): Promise<IReciters | Error | AxiosError>;

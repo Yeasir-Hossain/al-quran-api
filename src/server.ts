@@ -46,7 +46,8 @@ app.use(actuator({
             name: "Pranta Das",
             email: "prantodas043@gmail.com",
             url: "http://github.com/Prantadas"
-        }
+        },
+        note: 'Made with ❤️ By Pranta Das'
     },
 }));
 app.use(compression());
@@ -62,7 +63,9 @@ app.use(rateLimit({
 app.use('/health', healthCheck());
 app.use(express.json({ limit: "50mb" }));
 app.use(parse());
-app.use(morgan("combined"));
+app.use(morgan(
+    `${process.env.NODE_ENV === 'production' ? 'combined' : 'dev'}`
+));
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(methodOverride());

@@ -1,7 +1,7 @@
 {
   "name": "quran-backend",
   "version": "1.0.0",
-  "description": "",
+  "description": "An API provider of a Quran App",
   "main": "dist/index.js",
   "scripts": {
     "dev": "nodemon --watch src src/index.ts",
