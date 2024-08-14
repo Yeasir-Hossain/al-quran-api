@@ -42,10 +42,10 @@ app.use(actuator({
     basePath: '/health',
     infoGitMode: 'full',
     infoBuildOptions: {
-        "author": {
-            "name": "Pranta Das",
-            "email": "prantodas043@gmail.com",
-            "url": "http://github.com/Prantadas"
+        author: {
+            name: "Pranta Das",
+            email: "prantodas043@gmail.com",
+            url: "http://github.com/Prantadas"
         }
     },
 }));
