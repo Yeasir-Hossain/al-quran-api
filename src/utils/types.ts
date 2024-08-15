@@ -4,6 +4,7 @@ export interface Req extends Request {
     user?: User;
     files?: any;
     session?: string;
+    id?: string;
 };
 
 export interface User {

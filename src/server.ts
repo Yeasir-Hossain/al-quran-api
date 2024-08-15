@@ -16,13 +16,16 @@ import methodOverride from 'method-override';
 
 // Internal imports
 import connectToDB from './db/connectToDB';
-// import session from './middleware/session';
+import session from './middleware/session';
 import router from './routes';
 import { setServerInstance } from './utils/eventHandler';
 import SocketServer from './controllers/socket/socket';
 import { socketAuth } from './controllers/socket/socketAuth';
 import { events } from './controllers/socket/customEvents';
 import errorHandler from './middleware/errorHandler';
+import requestId from './middleware/requestId';
+import { Req } from './utils/types';
+import { LOGGER_FORMAT } from './utils/constants';
 
 let ioServer: SocketServer;
 
@@ -63,20 +66,29 @@ app.use(rateLimit({
 app.use('/health', healthCheck());
 app.use(express.json({ limit: "50mb" }));
 app.use(parse());
-app.use(morgan(
-    `${process.env.NODE_ENV === 'production' ? 'combined' : 'dev'}`
-));
+morgan.token('id', (req: Req) => {
+    return req.id?.split('-')[0];
+});
+app.use(morgan(LOGGER_FORMAT));
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(methodOverride());
+app.use(requestId({
+    setHeader: false
+}));
+// enabling xss protection
+app.use((_req, res, next) => {
+    res.setHeader('X-XSS-Protection', '1; mode=block');
+    next();
+});
 
 // session hanlder
-// app.use(session);
+app.use(session);
 
 // Routes setup
 app.use(router);
 
-// error middlewares
+// error middleware
 app.use(errorHandler);
 
 // Default routes
