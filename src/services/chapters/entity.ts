@@ -1,7 +1,7 @@
 import { Response, NextFunction } from "express";
 import { Req } from "../../utils/types";
-import { quranApi } from "../../controllers/quranApi";
 import HttpError from "../../errors/httpError";
+import { chapter } from "al-quran-sdk";
 
 const ALLOWED_QUERY = new Set(["language"]);
 
@@ -12,7 +12,7 @@ export const getListOfChapters = async (
 ): Promise<Response> => {
   const isValidQuery = Object.keys(req.query).every((key) => ALLOWED_QUERY.has(key));
   if (!isValidQuery) throw new HttpError('Query Not Allowed', 400);
-  const chapters = await quranApi.chapter.listChapters(req?.query?.language as string || 'en');
+  const chapters = chapter.listChapters(req?.query?.language as string || 'en');
   return res.status(200).json({
     status: 200,
     message: 'Chapters retrieved successfully',
@@ -25,11 +25,11 @@ export const getOneChapter = async (req: Req, res: Response, _next: NextFunction
   if (!id || id.toString().trim().length === 0 || isNaN(parseInt(id))) throw new HttpError('Chapter ID is Required', 400);
   const isValidQuery = Object.keys(req.query).every((key) => ALLOWED_QUERY.has(key));
   if (!isValidQuery) throw new HttpError('Query Not Allowed', 400);
-  const chapter = await quranApi.chapter.getChapter(+id, req?.query?.language as string || 'en');
+  const chapters = chapter.getChapter(+id, req?.query?.language as string || 'en');
   return res.status(200).json({
     status: 200,
     message: 'Chapter retrieved successfully',
-    data: chapter,
+    data: chapters,
   });
 };
 
@@ -40,7 +40,7 @@ export const getChapteInfo = async (req: Req, res: Response, _next: NextFunction
     isNaN(parseInt(chapter_id))) throw new HttpError('Chapter ID is Required', 400);
   const isValidQuery = Object.keys(req.query).every((key) => ALLOWED_QUERY.has(key));
   if (!isValidQuery) throw new HttpError('Query Not Allowed', 400);
-  const chapterInfo = await quranApi.chapter.getChapterInfo(+chapter_id, req?.query?.language as string || 'en');
+  const chapterInfo = chapter.getChapterInfo(+chapter_id, req?.query?.language as string || 'en');
   return res.status(200).json({
     status: 200,
     message: 'Chapter Info retrieved successfully',

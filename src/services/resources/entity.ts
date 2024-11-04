@@ -1,14 +1,14 @@
 import { Response, NextFunction } from "express";
 import { Req } from "../../utils/types";
 import HttpError from "../../errors/httpError";
-import { quranApi } from "../../controllers/quranApi";
+import { resources } from "al-quran-sdk";
 
 export const getRecitationInfo = async (req: Req, res: Response, _next: NextFunction): Promise<Response> => {
   const { recitation_id } = req.params;
   if (!recitation_id ||
     recitation_id.toString().trim().length === 0 ||
     isNaN(parseInt(recitation_id))) throw new HttpError('Recitation ID is Required', 400);
-  const recitaion = await quranApi.resources.getRecitationInfo(recitation_id);
+  const recitaion = await resources.getRecitationInfo(recitation_id);
   return res.status(200).json({
     status: 200,
     message: 'Recitation Info retrieved successfully',
@@ -21,7 +21,7 @@ export const getTranslationInfo = async (req: Req, res: Response, _next: NextFun
   if (!translation_id ||
     translation_id.toString().trim().length === 0 ||
     isNaN(parseInt(translation_id))) throw new HttpError('Translation ID is Required', 400);
-  const translation = await quranApi.resources.getTranslationInfo(translation_id);
+  const translation = await resources.getTranslationInfo(translation_id);
   return res.status(200).json({
     status: 200,
     message: 'Translation Info retrieved successfully',
@@ -33,7 +33,7 @@ export const getTranslations = async (req: Req, res: Response, _next: NextFuncti
   const { language } = req.query;
   if (language &&
     language.toString().trim().length === 0) throw new HttpError('Language Can not be empty', 400);
-  const translations = await quranApi.resources.getTranslations(language as string || 'en');
+  const translations = await resources.getTranslations(language as string || 'en');
   return res.status(200).json({
     status: 200,
     message: 'Translations retrieved successfully',
@@ -45,7 +45,7 @@ export const getTafsirs = async (req: Req, res: Response, _next: NextFunction): 
   const { language } = req.query;
   if (language &&
     language.toString().trim().length === 0) throw new HttpError('Language Can not be empty', 400);
-  const tafsirs = await quranApi.resources.getTafsirs(language as string || 'en');
+  const tafsirs = await resources.getTafsirs(language as string || 'en');
   return res.status(200).json({
     status: 200,
     message: 'Tafsirs retrieved successfully',
@@ -58,7 +58,7 @@ export const getTafsirInfo = async (req: Req, res: Response, _next: NextFunction
   if (!tafsir_id ||
     tafsir_id.toString().trim().length === 0 ||
     isNaN(parseInt(tafsir_id))) throw new HttpError('Tafsir ID is Required', 400);
-  const tafsir = await quranApi.resources.getTafsirInfo(tafsir_id);
+  const tafsir = await resources.getTafsirInfo(tafsir_id);
   return res.status(200).json({
     status: 200,
     message: 'Tafsir Info retrieved successfully',
@@ -67,7 +67,7 @@ export const getTafsirInfo = async (req: Req, res: Response, _next: NextFunction
 };
 
 export const getRecitationStyles = async (_req: Req, res: Response, _next: NextFunction): Promise<Response> => {
-  const styles = await quranApi.resources.getRecitationStyles();
+  const styles = await resources.getRecitationStyles();
   return res.status(200).json({
     status: 200,
     message: 'Recitation Styles retrieved successfully',
@@ -76,7 +76,7 @@ export const getRecitationStyles = async (_req: Req, res: Response, _next: NextF
 };
 
 export const getAllLanguages = async (_req: Req, res: Response, _next: NextFunction): Promise<Response> => {
-  const languages = await quranApi.resources.getLanguages();
+  const languages = await resources.getLanguages();
   return res.status(200).json({
     status: 200,
     message: 'Languages retrieved successfully',
@@ -85,7 +85,7 @@ export const getAllLanguages = async (_req: Req, res: Response, _next: NextFunct
 };
 
 export const getChapterInfos = async (_req: Req, res: Response, _next: NextFunction): Promise<Response> => {
-  const chapterInfos = await quranApi.resources.getChapterInfos();
+  const chapterInfos = await resources.getChapterInfos();
   return res.status(200).json({
     status: 200,
     message: 'Chapter Infos retrieved successfully',
@@ -94,7 +94,7 @@ export const getChapterInfos = async (_req: Req, res: Response, _next: NextFunct
 };
 
 export const getVerseMedia = async (_req: Req, res: Response, _next: NextFunction): Promise<Response> => {
-  const verseMedia = await quranApi.resources.getVerseMedias();
+  const verseMedia = await resources.getVerseMedias();
   return res.status(200).json({
     status: 200,
     message: 'Verse Media retrieved successfully',

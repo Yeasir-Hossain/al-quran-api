@@ -42,6 +42,7 @@
     "@types/nodemailer": "^6.4.15",
     "@types/uuid": "^9.0.8",
     "agentkeepalive": "^4.5.0",
+    "al-quran-sdk": "^1.0.5",
     "axios": "^1.7.2",
     "bcrypt": "^5.1.1",
     "cloudinary": "^2.2.0",
